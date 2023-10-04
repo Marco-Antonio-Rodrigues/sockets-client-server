@@ -1,5 +1,7 @@
 import socket
 import pickle
+import threading
+
 from function_server import dados,listar_arquivos,enviar_arquivo,finalizar_conexao,hora_atual
 
 HOST = "127.0.0.1"  # Endereço de host padrão (localhost)
@@ -16,8 +18,9 @@ class conection():
     def __init__(self,conn,addr):
         self.conn = conn
         self.addr = addr
+        self.thread = None
     
-    def start(self):
+    def running(self):
         with self.conn:
             print(f"Conectado por {self.addr}")
             while True:
@@ -43,6 +46,8 @@ def start_server():
             s.listen()
             print(f"Aguardando conexões em {HOST}:{PORT}")
             conn, addr = s.accept()
-            conection(conn,addr).start()
-
+            conection_client = conection(conn,addr)
+            thread = threading.Thread(target=conection_client.running)
+            thread.start()
+            
 start_server()

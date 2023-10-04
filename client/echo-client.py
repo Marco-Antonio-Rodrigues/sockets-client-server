@@ -31,8 +31,12 @@ def send_server():
                 s.sendall(request_bytes)
                 data_bytes = s.recv(1024)
                 data = pickle.loads(data_bytes)
-                with open(data[0],"wb") as file:
-                    file.write(data[1])
+                if type(data) == tuple:
+                    with open(data[0],"wb") as file:
+                        file.write(data[1])
+                        print("Arquivo salvo!")
+                        continue
+                print(data)
                 continue
 
             elif escolha == '4':
