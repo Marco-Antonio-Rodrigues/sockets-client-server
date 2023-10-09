@@ -14,7 +14,7 @@ dicionario = {
     b'LISTAR': listar_arquivos,
     b'SAIR': finalizar_conexao,
 }
-class conection():
+class Conection():
     def __init__(self,conn,addr):
         self.conn = conn
         self.addr = addr
@@ -46,7 +46,7 @@ def start_server():
             s.listen()
             print(f"Aguardando conexões em {HOST}:{PORT}")
             conn, addr = s.accept()
-            conection_client = conection(conn,addr)
+            conection_client = Conection(conn,addr)
             thread = threading.Thread(target=conection_client.running)
             thread.start()
             
